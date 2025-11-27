@@ -1,7 +1,8 @@
-package users;
+package models;
 
 public abstract class User {
-    protected String id, username, password, name, role;
+    protected final String id;
+    protected String username, password, name, role;
 
     public User(String id, String username, String password, String name, String role) {
         this.id = id;
