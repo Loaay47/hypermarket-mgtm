@@ -1,7 +1,7 @@
-package modules;
+package managers;
 
 import java.io.*;
-import users.*;
+import models.*;
 import java.util.*;
 
 public class UserManager {
@@ -93,7 +93,7 @@ public class UserManager {
                     case "admin" -> new Admin(id, username, password, name);
                     case "marketing" -> new MarketingEmployee(id, username, password, name);
                     case "inventory" -> new InventoryEmployee(id, username, password, name);
-                    case "sales" -> new SalesEmployee(id, username, password, name);
+                    case "sales" -> new Seller(id, username, password, name);
                     default -> null;
                 };
                     if (user != null) users.add(user);
