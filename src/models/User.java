@@ -2,13 +2,12 @@ package models;
 
 public abstract class User {
     protected final String id;
-    protected String username, password, name, role;
+    protected String username, password, role;
 
-    public User(String id, String username, String password, String name, String role) {
+    public User(String id, String username, String password, String role) {
         this.id = id;
         this.username = username;
         this.password = password;
-        this.name = name;
         this.role = role;
     }
 
@@ -24,10 +23,6 @@ public abstract class User {
         return password;
     }
 
-    public String getName() {
-        return name;
-    }
-
     public String getRole() {
         return role;
     }
@@ -40,7 +35,4 @@ public abstract class User {
         this.password = password;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
 }
