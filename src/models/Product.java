@@ -9,6 +9,7 @@ public class Product {
     private int quantity;
     private int minStock;
     private LocalDate expiryDate;
+    private boolean isDamaged = false;
 
     public Product(String id, String name, double price, int quantity, int minStock, LocalDate expiryDate) {
         this.id = id;
@@ -41,6 +42,13 @@ public class Product {
 
     public LocalDate getExpiryDate() {
         return expiryDate;
+    }
+    public void setDamaged(boolean isDamaged) {
+        this.isDamaged = isDamaged;
+    }
+   
+    public boolean isDamaged() {
+        return isDamaged;
     }
 
     public void setName(String name) {
