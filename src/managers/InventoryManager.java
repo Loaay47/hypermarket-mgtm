@@ -42,6 +42,13 @@ public class InventoryManager {
         saveProductstoFile();
     }
 
+    public ArrayList<Product> getAllProducts() {
+        return products;
+    }
+
+    public void applySpecialOffer(SpecialOffer offer) {
+        
+    }
     public void setDamaged(String id, boolean damaged) {
         Product p = searchProduct(id);
         if (p != null) {
