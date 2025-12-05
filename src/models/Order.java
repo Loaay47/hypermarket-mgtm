@@ -1,54 +1,35 @@
 package models;
-import java.util.*;
+
+import java.time.LocalDate;
 
 public class Order {
     private final String orderId;
-    private final Date orderDate;
-    private final ArrayList<OrderItem> items;
+    private final String productId;
+    private int quantity;
+    private final LocalDate date;
 
-    public Order(String orderId) {
+    public Order(String orderId, String productId, int quantity) {
         this.orderId = orderId;
-        orderDate = new Date();
-        this.items = new ArrayList<>();
+        this.productId = productId;
+        this.quantity = quantity;
+        this.date = LocalDate.now();
     }
 
     public String getOrderId() {
         return orderId;
     }
-    public Date getOrderDate() {
-        return orderDate;
+    public String getProductId() {
+        return productId;
     }
-    public ArrayList<OrderItem> getItems() {
-        return items;
+    public int getQuantity() {
+        return quantity;
     }
-    public double getTotalPrice() {
-        double total = 0;
-        for (OrderItem item: items) {
-            total += item.getTotalPrice();
-        }
-        return total;
-    }
-
-    public void addItem(Product product, int quantity) {
-        items.add(new OrderItem(product, quantity));
-    }
-
-    public void removeItem(OrderItem item) {
-        items.remove(item);
+    public LocalDate getDate() {
+        return date;
     }
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Order ID: ").append(orderId).append("\n");
-        sb.append("Order Date: ").append(orderDate).append("\n");
-        sb.append("Items:\n");
-        for (OrderItem item: items) {
-            sb.append("- ").append(item.getProduct().getName())
-            .append("x ").append(item.getQuantity())
-            .append(" = ").append(item.getTotalPrice()).append(" EGP\n");
-        }
-        sb.append("Total Price: ").append(getTotalPrice()).append(" EGP\n"); 
-        return sb.toString();
+        return orderId + "," + productId + "," + quantity + "," + date;
     }
 }

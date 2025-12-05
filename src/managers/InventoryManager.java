@@ -1,17 +1,12 @@
 package managers;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.time.LocalDate;
 import models.*;
 import java.util.*;
 
 public class InventoryManager {
-    private ArrayList<Product> products = new ArrayList<>();
+    private final ArrayList<Product> products = new ArrayList<>();
     private final File file = new File("data/products.txt");
 
     public InventoryManager() {
@@ -47,7 +42,11 @@ public class InventoryManager {
     }
 
     public void applySpecialOffer(SpecialOffer offer) {
-        
+        Product p = searchProduct(offer.getProductId());
+        if (p != null) {
+            p.setPrice(offer.getDiscountedPrice(p.getPrice()));
+            saveProductstoFile();
+        }
     }
     public void setDamaged(String id, boolean damaged) {
         Product p = searchProduct(id);
