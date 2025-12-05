@@ -3,7 +3,7 @@ package models;
 import java.time.LocalDate;
 
 public class Product {
-    private final String id;
+    private String id;
     private String name;
     private double price;
     private int quantity;
@@ -19,7 +19,6 @@ public class Product {
         this.minStock = minStock;
         this.expiryDate = expiryDate;
     }
-
     public String getId() {
         return id;
     }
@@ -50,7 +49,9 @@ public class Product {
     public boolean isDamaged() {
         return isDamaged;
     }
-
+    public void setId(String id) {
+        this.id = id;
+    }
     public void setName(String name) {
         this.name = name;
     }

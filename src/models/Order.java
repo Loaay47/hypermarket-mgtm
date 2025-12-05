@@ -5,7 +5,7 @@ import java.time.LocalDate;
 public class Order {
     private final String orderId;
     private final String productId;
-    private int quantity;
+    private final int quantity;
     private final LocalDate date;
 
     public Order(String orderId, String productId, int quantity) {
@@ -14,7 +14,6 @@ public class Order {
         this.quantity = quantity;
         this.date = LocalDate.now();
     }
-
     public String getOrderId() {
         return orderId;
     }
@@ -27,7 +26,6 @@ public class Order {
     public LocalDate getDate() {
         return date;
     }
-
     @Override
     public String toString() {
         return orderId + "," + productId + "," + quantity + "," + date;

@@ -12,7 +12,6 @@ public class InventoryManager {
     public InventoryManager() {
         loadProductsFromFile();
     }
-
     public void addProduct(Product p) {
         products.add(p);
         saveProductstoFile();

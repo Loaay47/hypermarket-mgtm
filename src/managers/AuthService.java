@@ -12,8 +12,13 @@ public class AuthService {
     private final ArrayList<User> users = new ArrayList<>();
     private User currentUser = null;
     private final File file = new File("data/users.txt");
+    private final IdGenerator idGenerator;
 
-    public AuthService() {
+    public AuthService(IdGenerator idGenerator) {
+        this.idGenerator = idGenerator;
+
+        users.add(new Admin("A000", "Abdo", "1321"));
+        users.add(new Admin("A001", "Loaay", "1234"));
         loadUsersFromFile();
     }
     public boolean login(String username, String password) {
@@ -31,9 +36,26 @@ public class AuthService {
     public User getCurrentUser() {
         return currentUser;
     }
-    public void registerUser(User u) {
+    public User registerUser(String username, String password, String role) {
+        String id;
+        switch (role) {
+            case "inventory" -> id = idGenerator.nextInventoryId();
+            case "marketing" -> id = idGenerator.nextMarketingId();
+            case "seller" -> id = idGenerator.nextSellerId();
+            default -> { return null; }
+        }
+
+        User u;
+        switch (role) {
+            case "inventory" -> u = new InventoryEmployee(id, username, password);
+            case "marketing" -> u = new MarketingEmployee(id, username, password);
+            case "seller" -> u = new Seller(id, username, password);
+            default -> { return null; }
+        }
+
         users.add(u);
         saveUsersToFile();
+        return u;
     }
 
     public User searchUser(String id){ 
@@ -61,7 +83,7 @@ public class AuthService {
 
     public void deleteUser(String id) {
         for (User u : users) {
-            if (u.getId().equals(id)) {
+            if (u.getId().equals(id) && !(u instanceof Admin)) {
                 users.remove(u);
                 saveUsersToFile();
             }
@@ -80,7 +102,6 @@ public class AuthService {
                 User u;
 
                 switch (role) {
-                    case "admin" -> u = new Admin(id, username, password);
                     case "inventory" -> u = new InventoryEmployee(id, username, password);
                     case "marketing" -> u = new MarketingEmployee(id, username, password);
                     case "seller" -> u = new Seller(id, username, password);
