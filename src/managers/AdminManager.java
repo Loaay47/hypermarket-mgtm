@@ -23,7 +23,8 @@ public class AdminManager {
             }
         }
 
-        auth.registerUser(emp);
+        // TODO: a bug prevented compiling no idea why
+        // auth.registerUser(emp);
         return emp;
     }
 
@@ -46,7 +47,7 @@ public class AdminManager {
     }
 }
 
-	
+
 
 
 
