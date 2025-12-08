@@ -2,10 +2,14 @@ package view;
 
 import java.awt.Cursor;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.*;
+
+import managers.AuthService;
 
 public class RegisterView extends Form {
     public RegisterView() {
@@ -16,13 +20,13 @@ public class RegisterView extends Form {
 
     private void addGuiCommponents() {
         // register label
-        JLabel loginLabel = new JLabel("Register");
-        loginLabel.setBounds(0, 25, 520, 100);
-        loginLabel.setForeground(CommonConstants.TEXT_COLOR);
-        loginLabel.setFont(new Font("Dialog", Font.BOLD, 40));
-        loginLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        JLabel registerLabel = new JLabel("Register");
+        registerLabel.setBounds(0, 25, 520, 100);
+        registerLabel.setForeground(CommonConstants.TEXT_COLOR);
+        registerLabel.setFont(new Font("Dialog", Font.BOLD, 40));
+        registerLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
-        add(loginLabel);
+        add(registerLabel);
 
         // username label
         JLabel usernameLabel = new JLabel("Username:");
@@ -76,23 +80,40 @@ public class RegisterView extends Form {
         add(conPasswordField);
 
         // button login
-        JButton loginButton = new JButton("Register");
-        loginButton.setBounds(125, 520, 250, 50);
-        loginButton.setBackground(CommonConstants.TEXT_COLOR);
-        loginButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        loginButton.setFont(new Font("Dialog", Font.BOLD, 18));
-        loginButton.setFocusable(false);
+        JButton registerButton = new JButton("Register");
+        registerButton.setBounds(125, 520, 250, 50);
+        registerButton.setBackground(CommonConstants.TEXT_COLOR);
+        registerButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        registerButton.setFont(new Font("Dialog", Font.BOLD, 18));
+        registerButton.setFocusable(false);
 
-        add(loginButton);
+        registerButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String username = usernameField.getText();
+                String password = new String(passwordField.getPassword());
+                String confirmPassword = new String(conPasswordField.getPassword());
+
+                String error = validateUserInput(username, password, confirmPassword);
+                if (error != null) {
+                    JOptionPane.showMessageDialog(null, error, "Error Registering", JOptionPane.WARNING_MESSAGE);
+                }
+                else {
+                }
+
+            }
+        });
+
+        add(registerButton);
 
         // register label
-        JLabel registerLabel = new JLabel("Have an account? Sign here");
-        registerLabel.setBounds(125, 600, 250, 50);
-        registerLabel.setForeground(CommonConstants.TEXT_COLOR);
-        registerLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        registerLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        JLabel loginLabel = new JLabel("Have an account? Sign here");
+        loginLabel.setBounds(125, 600, 250, 50);
+        loginLabel.setForeground(CommonConstants.TEXT_COLOR);
+        loginLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        loginLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
-        registerLabel.addMouseListener(new MouseAdapter() {
+        loginLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 RegisterView.this.dispose();
@@ -101,7 +122,21 @@ public class RegisterView extends Form {
             }
         });
 
-        add(registerLabel);
+        add(loginLabel);
 
     }
+
+    private String validateUserInput(String username, String password, String confirmPassword) {
+        if (username.length() == 0 || password.length() == 0 || confirmPassword.length() == 0) {
+            return "All fields are required";
+        }
+        if (password.length() < 6 || confirmPassword.length() < 6) {
+            return "Password must be at least 6 characters";
+        }
+        if (!password.equals(confirmPassword)) {
+            return "Passwords don't match";
+        }
+        return null;
+    }
+
 }

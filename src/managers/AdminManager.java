@@ -23,7 +23,7 @@ public class AdminManager {
             }
         }
 
-        // TODO: a bug prevented compiling no idea why
+        // TODO: a bug prevented compilation, no idea why
         // auth.registerUser(emp);
         return emp;
     }

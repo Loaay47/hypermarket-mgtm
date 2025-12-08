@@ -21,6 +21,7 @@ public class AuthService {
         users.add(new Admin("A001", "Loaay", "1234"));
         loadUsersFromFile();
     }
+
     public boolean login(String username, String password) {
         for (User u : users) {
             if (u.getUsername().equals(username) && u.getPassword().equals(password)) {
@@ -30,19 +31,24 @@ public class AuthService {
         }
         return false;
     }
+
     public void logout() {
         currentUser = null;
     }
+
     public User getCurrentUser() {
         return currentUser;
     }
+
     public User registerUser(String username, String password, String role) {
         String id;
         switch (role) {
             case "inventory" -> id = idGenerator.nextInventoryId();
             case "marketing" -> id = idGenerator.nextMarketingId();
             case "seller" -> id = idGenerator.nextSellerId();
-            default -> { return null; }
+            default -> {
+                return null;
+            }
         }
 
         User u;
@@ -50,7 +56,9 @@ public class AuthService {
             case "inventory" -> u = new InventoryEmployee(id, username, password);
             case "marketing" -> u = new MarketingEmployee(id, username, password);
             case "seller" -> u = new Seller(id, username, password);
-            default -> { return null; }
+            default -> {
+                return null;
+            }
         }
 
         users.add(u);
@@ -58,7 +66,7 @@ public class AuthService {
         return u;
     }
 
-    public User searchUser(String id){ 
+    public User searchUser(String id) {
         for (User u : users) {
             if (u.getId().equals(id)) {
                 return u;
@@ -89,7 +97,7 @@ public class AuthService {
             }
         }
     }
-    
+
     private void loadUsersFromFile() {
 
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
@@ -111,20 +119,19 @@ public class AuthService {
                 }
                 users.add(u);
             }
-        } catch (IOException e){
+        } catch (IOException e) {
             System.out.println("Error reading from file.");
         }
     }
-    
+
     private void saveUsersToFile() {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
-          for (User u : users) {
+            for (User u : users) {
                 bw.write(
-                    u.getId() + "," +
-                    u.getUsername() + "," +
-                    u.getPassword() + "," +
-                    u.getRole()
-                );
+                        u.getId() + "," +
+                                u.getUsername() + "," +
+                                u.getPassword() + "," +
+                                u.getRole());
                 bw.newLine();
             }
         } catch (IOException e) {
