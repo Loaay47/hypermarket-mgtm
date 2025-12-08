@@ -1,21 +1,22 @@
 package view;
 
-import java.awt.*;
-import javax.swing.*;
-
+import java.awt.Cursor;
+import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class LoginView extends Form {
-    public LoginView() {
-        super("Login");
-        addGuiCommponents();
+import javax.swing.*;
 
+public class RegisterView extends Form {
+    public RegisterView() {
+        super("Register");
+
+        addGuiCommponents();
     }
 
     private void addGuiCommponents() {
-        // login label
-        JLabel loginLabel = new JLabel("Login");
+        // register label
+        JLabel loginLabel = new JLabel("Register");
         loginLabel.setBounds(0, 25, 520, 100);
         loginLabel.setForeground(CommonConstants.TEXT_COLOR);
         loginLabel.setFont(new Font("Dialog", Font.BOLD, 40));
@@ -57,8 +58,25 @@ public class LoginView extends Form {
         add(passwordLabel);
         add(passwordField);
 
+        // confirm password label
+        JLabel conPasswordLabel = new JLabel("Confirm Password:");
+        conPasswordLabel.setBounds(30, 350, 400, 25);
+        conPasswordLabel.setForeground(CommonConstants.TEXT_COLOR);
+        conPasswordLabel.setFont(new Font("Dialog", Font.PLAIN, 18));
+
+        JPasswordField conPasswordField = new JPasswordField();
+        conPasswordField.setBounds(30, 385, 450, 55);
+        conPasswordField.setBackground(CommonConstants.SECONDARY_COLOR);
+        conPasswordField.setForeground(CommonConstants.TEXT_COLOR);
+        conPasswordField.setCaretColor(CommonConstants.TEXT_COLOR);
+        conPasswordField.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
+        conPasswordField.setFont(new Font("Dialog", Font.PLAIN, 24));
+
+        add(conPasswordLabel);
+        add(conPasswordField);
+
         // button login
-        JButton loginButton = new JButton("Login");
+        JButton loginButton = new JButton("Register");
         loginButton.setBounds(125, 520, 250, 50);
         loginButton.setBackground(CommonConstants.TEXT_COLOR);
         loginButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -68,7 +86,7 @@ public class LoginView extends Form {
         add(loginButton);
 
         // register label
-        JLabel registerLabel = new JLabel("Not a user?  Rigester Here");
+        JLabel registerLabel = new JLabel("Have an account? Sign here");
         registerLabel.setBounds(125, 600, 250, 50);
         registerLabel.setForeground(CommonConstants.TEXT_COLOR);
         registerLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -77,12 +95,11 @@ public class LoginView extends Form {
         registerLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                LoginView.this.dispose();
-                new RegisterView().setVisible(true);;
+                RegisterView.this.dispose();
+
+                new LoginView().setVisible(true);
             }
         });
-
-
 
         add(registerLabel);
 
