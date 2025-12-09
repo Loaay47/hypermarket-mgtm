@@ -18,7 +18,7 @@ public class RegisterView extends Form {
     public RegisterView(AuthService auth) {
         super("Register");
         this.auth = auth;
-
+        setSize(CommonConstants.LOGIN_SIZE);
         addGuiCommponents();
     }
 

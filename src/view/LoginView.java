@@ -4,6 +4,7 @@ import java.awt.*;
 import javax.swing.*;
 
 import managers.AuthService;
+import view.dashboard.*;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,7 +15,9 @@ public class LoginView extends Form {
     private final AuthService auth;
 
     public LoginView(AuthService auth) {
+
         super("Login");
+        setSize(CommonConstants.LOGIN_SIZE);
         this.auth = auth;
         addGuiCommponents();
 
@@ -86,14 +89,17 @@ public class LoginView extends Form {
 
                 JOptionPane.showMessageDialog(null, "Login successful!");
 
-                // dispose();
-                // new window for user
+                dispose();
+                String currentRole = auth.getCurrentRole();
+                switch (currentRole) {
+                    case "admin" -> new AdminDashboard().setVisible(true);
+                    case "inventory" -> new InventoryDashboard().setVisible(true);
+                    case "marketing" -> new MarketingDashboard().setVisible(true);
+                    case "seller" -> new SellerDashboard().setVisible(true);
+                }
 
             }
         });
-
-
-
 
         add(loginButton);
 
@@ -108,7 +114,7 @@ public class LoginView extends Form {
             @Override
             public void mouseClicked(MouseEvent e) {
                 LoginView.this.dispose();
-                new RegisterView(auth).setVisible(true);;
+                new RegisterView(auth).setVisible(true);
             }
         });
 
