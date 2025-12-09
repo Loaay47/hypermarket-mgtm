@@ -1,4 +1,7 @@
 import javax.swing.SwingUtilities;
+
+import managers.AuthService;
+import managers.IdGenerator;
 import view.LoginView;
 
 public class Main {
@@ -6,7 +9,8 @@ public class Main {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new LoginView().setVisible(true);
+                AuthService auth = new AuthService(new IdGenerator());
+                new LoginView(auth).setVisible(true);
             }
         });
     }
