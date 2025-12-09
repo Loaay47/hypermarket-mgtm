@@ -18,6 +18,7 @@ public class LoginView extends Form {
 
         super("Login");
         setSize(CommonConstants.LOGIN_SIZE);
+        setLocationRelativeTo(null);
         this.auth = auth;
         addGuiCommponents();
 
@@ -26,50 +27,50 @@ public class LoginView extends Form {
     private void addGuiCommponents() {
         // login label
         JLabel loginLabel = new JLabel("Login");
-        loginLabel.setBounds(0, 25, 520, 100);
+        loginLabel.setBounds(0, 20, 400, 60);
         loginLabel.setForeground(CommonConstants.TEXT_COLOR);
-        loginLabel.setFont(new Font("Dialog", Font.BOLD, 40));
+        loginLabel.setFont(new Font("Dialog", Font.BOLD, 32));
         loginLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
         add(loginLabel);
 
         // username label
         JLabel usernameLabel = new JLabel("Username:");
-        usernameLabel.setBounds(30, 150, 400, 25);
+        usernameLabel.setBounds(30, 100, 340, 20);
         usernameLabel.setForeground(CommonConstants.TEXT_COLOR);
-        usernameLabel.setFont(new Font("Dialog", Font.PLAIN, 18));
+        usernameLabel.setFont(new Font("Dialog", Font.PLAIN, 16));
 
         JTextField usernameField = new JTextField();
-        usernameField.setBounds(30, 185, 450, 55);
+        usernameField.setBounds(30, 125, 340, 45);
         usernameField.setBackground(CommonConstants.SECONDARY_COLOR);
         usernameField.setForeground(CommonConstants.TEXT_COLOR);
         usernameField.setCaretColor(CommonConstants.TEXT_COLOR);
         usernameField.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
-        usernameField.setFont(new Font("Dialog", Font.PLAIN, 24));
+        usernameField.setFont(new Font("Dialog", Font.PLAIN, 20));
 
         add(usernameLabel);
         add(usernameField);
 
         // password label
         JLabel passwordLabel = new JLabel("Password:");
-        passwordLabel.setBounds(30, 250, 400, 25);
+        passwordLabel.setBounds(30, 185, 340, 20);
         passwordLabel.setForeground(CommonConstants.TEXT_COLOR);
-        passwordLabel.setFont(new Font("Dialog", Font.PLAIN, 18));
+        passwordLabel.setFont(new Font("Dialog", Font.PLAIN, 16));
 
         JPasswordField passwordField = new JPasswordField();
-        passwordField.setBounds(30, 285, 450, 55);
+        passwordField.setBounds(30, 205, 340, 45);
         passwordField.setBackground(CommonConstants.SECONDARY_COLOR);
         passwordField.setForeground(CommonConstants.TEXT_COLOR);
         passwordField.setCaretColor(CommonConstants.TEXT_COLOR);
         passwordField.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
-        passwordField.setFont(new Font("Dialog", Font.PLAIN, 24));
+        passwordField.setFont(new Font("Dialog", Font.PLAIN, 20));
 
         add(passwordLabel);
         add(passwordField);
 
         // button login
         JButton loginButton = new JButton("Login");
-        loginButton.setBounds(125, 520, 250, 50);
+        loginButton.setBounds(80, 390, 240, 45);
         loginButton.setBackground(CommonConstants.TEXT_COLOR);
         loginButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         loginButton.setFont(new Font("Dialog", Font.BOLD, 18));
@@ -105,7 +106,7 @@ public class LoginView extends Form {
 
         // register label
         JLabel registerLabel = new JLabel("Not a user?  Rigester Here");
-        registerLabel.setBounds(125, 600, 250, 50);
+        registerLabel.setBounds(80, 480, 240, 40);
         registerLabel.setForeground(CommonConstants.TEXT_COLOR);
         registerLabel.setHorizontalAlignment(SwingConstants.CENTER);
         registerLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));

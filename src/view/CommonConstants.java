@@ -4,7 +4,10 @@ import java.awt.Dimension;
 
 public class CommonConstants {
     // login frame size
-    public static final Dimension LOGIN_SIZE = new Dimension(520, 680);
+    public static final Dimension LOGIN_SIZE = new Dimension(400, 520);
+
+    // login frame size
+    public static final Dimension DASHBOARD_SIZE = new Dimension(820, 580);
 
     // color hex decimal
     public static final Color PRIMARY_COLOR = Color.decode("#191E29");
