@@ -7,7 +7,7 @@ import models.User;
 public class IdGenerator {
     private int prodNumber = 0, orderNumber = 0, invNumber = 0, marketingNumber = 0, sellerNumber = 0, offerNumber = 0;
 
-    public void initializeFromUsers(List<models.User> users) {
+    public void initializeFromUsers(List<User> users) {
         for (User u : users) {
             String id = u.getId();
 

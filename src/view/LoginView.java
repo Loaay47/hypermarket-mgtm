@@ -106,7 +106,7 @@ public class LoginView extends Form {
         add(loginButton);
 
         // register label
-        JLabel registerLabel = new JLabel("Not a user?  Rigester Here");
+        JLabel registerLabel = new JLabel("Not a user?  Register Here");
         registerLabel.setBounds(80, 480, 240, 40);
         registerLabel.setForeground(CommonConstants.TEXT_COLOR);
         registerLabel.setHorizontalAlignment(SwingConstants.CENTER);
