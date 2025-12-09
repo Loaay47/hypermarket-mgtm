@@ -3,12 +3,19 @@ package view;
 import java.awt.*;
 import javax.swing.*;
 
+import managers.AuthService;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class LoginView extends Form {
-    public LoginView() {
+    private final AuthService auth;
+
+    public LoginView(AuthService auth) {
         super("Login");
+        this.auth = auth;
         addGuiCommponents();
 
     }
@@ -64,6 +71,29 @@ public class LoginView extends Form {
         loginButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         loginButton.setFont(new Font("Dialog", Font.BOLD, 18));
         loginButton.setFocusable(false);
+        loginButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String username = usernameField.getText();
+                String password = new String(passwordField.getPassword());
+
+                boolean u = auth.login(username, password);
+
+                if (u == false) {
+                    JOptionPane.showMessageDialog(null, "Invalid username or password");
+                    return;
+                }
+
+                JOptionPane.showMessageDialog(null, "Login successful!");
+
+                // dispose();
+                // new window for user
+
+            }
+        });
+
+
+
 
         add(loginButton);
 
@@ -78,11 +108,9 @@ public class LoginView extends Form {
             @Override
             public void mouseClicked(MouseEvent e) {
                 LoginView.this.dispose();
-                new RegisterView().setVisible(true);;
+                new RegisterView(auth).setVisible(true);;
             }
         });
-
-
 
         add(registerLabel);
 

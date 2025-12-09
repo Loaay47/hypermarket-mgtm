@@ -10,10 +10,14 @@ import java.awt.event.MouseEvent;
 import javax.swing.*;
 
 import managers.AuthService;
+import models.User;
 
 public class RegisterView extends Form {
-    public RegisterView() {
+    private final AuthService auth;
+
+    public RegisterView(AuthService auth) {
         super("Register");
+        this.auth = auth;
 
         addGuiCommponents();
     }
@@ -97,9 +101,19 @@ public class RegisterView extends Form {
                 String error = validateUserInput(username, password, confirmPassword);
                 if (error != null) {
                     JOptionPane.showMessageDialog(null, error, "Error Registering", JOptionPane.WARNING_MESSAGE);
+                    return;
                 }
-                else {
+                User u = auth.registerSellar(username, password);
+
+                if (u == null) {
+                    JOptionPane.showMessageDialog(null, "Username already taken. Try adding numbers or underscores");
+                    return;
                 }
+
+                JOptionPane.showMessageDialog(null, "Registration successful!");
+
+                dispose();
+                new LoginView(auth).setVisible(true);
 
             }
         });
@@ -118,7 +132,7 @@ public class RegisterView extends Form {
             public void mouseClicked(MouseEvent e) {
                 RegisterView.this.dispose();
 
-                new LoginView().setVisible(true);
+                new LoginView(auth).setVisible(true);
             }
         });
 
@@ -130,8 +144,8 @@ public class RegisterView extends Form {
         if (username.length() == 0 || password.length() == 0 || confirmPassword.length() == 0) {
             return "All fields are required";
         }
-        if (password.length() < 6 || confirmPassword.length() < 6) {
-            return "Password must be at least 6 characters";
+        if (password.length() < 4 || confirmPassword.length() < 4) {
+            return "Password must be at least 4 characters";
         }
         if (!password.equals(confirmPassword)) {
             return "Passwords don't match";

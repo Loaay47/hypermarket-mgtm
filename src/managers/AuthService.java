@@ -16,9 +16,6 @@ public class AuthService {
 
     public AuthService(IdGenerator idGenerator) {
         this.idGenerator = idGenerator;
-
-        users.add(new Admin("A000", "Abdo", "1321"));
-        users.add(new Admin("A001", "Loaay", "1234"));
         loadUsersFromFile();
     }
 
@@ -66,6 +63,15 @@ public class AuthService {
         return u;
     }
 
+    public User registerSellar(String username, String password) {
+        String id = idGenerator.nextSellerId();
+        User u = new Seller(id, username, password);
+
+        users.add(u);
+        saveUsersToFile();
+        return u;
+    }
+
     public User searchUser(String id) {
         for (User u : users) {
             if (u.getId().equals(id)) {
@@ -100,27 +106,50 @@ public class AuthService {
 
     private void loadUsersFromFile() {
 
-        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                String[] parts = line.split(",");
-
-                String id = parts[0], username = parts[1], password = parts[2], role = parts[3];
-
-                User u;
-
-                switch (role) {
-                    case "inventory" -> u = new InventoryEmployee(id, username, password);
-                    case "marketing" -> u = new MarketingEmployee(id, username, password);
-                    case "seller" -> u = new Seller(id, username, password);
-                    default -> {
-                        continue;
-                    }
-                }
-                users.add(u);
+        try {
+            if (file.getParentFile() != null && !file.getParentFile().exists()) {
+                file.getParentFile().mkdirs();
             }
+            if (!file.exists()) {
+                file.createNewFile();
+
+                users.add(new Admin("A000", "loaay", "1234"));
+                users.add(new Admin("A001", "abdo", "1321"));
+
+                saveUsersToFile();
+                return;
+            }
+            if (file.length() == 0) {
+                users.add(new Admin("A000", "loaay", "1234"));
+                users.add(new Admin("A001", "abdo", "1321"));
+
+                saveUsersToFile();
+                return;
+            }
+            try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+                String line;
+                while ((line = br.readLine()) != null) {
+                    String[] parts = line.split(",");
+                    if (parts.length < 4) continue;
+
+                    String id = parts[0], username = parts[1], password = parts[2], role = parts[3];
+
+                    User u;
+                    switch (role) {
+                        case "inventory" -> u = new InventoryEmployee(id, username, password);
+                        case "marketing" -> u = new MarketingEmployee(id, username, password);
+                        case "seller" -> u = new Seller(id, username, password);
+                        case "admin" -> u = new Admin(id, username, password);
+                        default -> {
+                            continue;
+                        }
+                    }
+                    users.add(u);
+                }
+            }
+
         } catch (IOException e) {
-            System.out.println("Error reading from file.");
+            System.err.println("Error accessing users file: " + e.getMessage());
         }
     }
 
@@ -135,7 +164,7 @@ public class AuthService {
                 bw.newLine();
             }
         } catch (IOException e) {
-            System.out.println("Error writng in file.");
+            System.out.println("Error writing in file.");
         }
     }
 }
