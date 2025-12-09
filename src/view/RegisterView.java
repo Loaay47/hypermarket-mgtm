@@ -21,9 +21,12 @@ public class RegisterView extends Form {
         setSize(CommonConstants.LOGIN_SIZE);
         setLocationRelativeTo(null);
         addGuiCommponents();
+
     }
 
-    private void addGuiCommponents() {
+    @Override
+    protected void addGuiCommponents() {
+
         // register label
         JLabel registerLabel = new JLabel("Login");
         registerLabel.setBounds(0, 20, 400, 60);
@@ -131,7 +134,7 @@ public class RegisterView extends Form {
         loginLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                RegisterView.this.dispose();
+                dispose();
 
                 new LoginView(auth).setVisible(true);
             }

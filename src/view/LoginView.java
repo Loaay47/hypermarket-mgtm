@@ -24,7 +24,8 @@ public class LoginView extends Form {
 
     }
 
-    private void addGuiCommponents() {
+    @Override
+    protected void addGuiCommponents() {
         // login label
         JLabel loginLabel = new JLabel("Login");
         loginLabel.setBounds(0, 20, 400, 60);
@@ -93,10 +94,10 @@ public class LoginView extends Form {
                 dispose();
                 String currentRole = auth.getCurrentRole();
                 switch (currentRole) {
-                    case "admin" -> new AdminDashboard().setVisible(true);
-                    case "inventory" -> new InventoryDashboard().setVisible(true);
-                    case "marketing" -> new MarketingDashboard().setVisible(true);
-                    case "seller" -> new SellerDashboard().setVisible(true);
+                    case "admin" -> new AdminDashboard(auth).setVisible(true);
+                    case "inventory" -> new InventoryDashboard(auth).setVisible(true);
+                    case "marketing" -> new MarketingDashboard(auth).setVisible(true);
+                    case "seller" -> new SellerDashboard(auth).setVisible(true);
                 }
 
             }
