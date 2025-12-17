@@ -74,7 +74,7 @@ public class SellerDashboard extends Form {
         // left menu panel
         JPanel menu = new JPanel(null);
         menu.setBackground(CommonConstants.PRIMARY_COLOR.darker());
-        menu.setBounds(0, 80, 250, getHeight());
+        menu.setBounds(0, 80, 250, getHeight() - 100);
         add(menu);
 
         JButton searchProductsBtn = new JButton("Search Products");
