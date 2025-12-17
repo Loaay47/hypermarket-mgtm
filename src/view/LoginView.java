@@ -3,13 +3,8 @@ package view;
 import java.awt.*;
 import javax.swing.*;
 
-import managers.AdminManager;
-import managers.AuthService;
-import managers.IdGenerator;
-import managers.InventoryManager;
-import managers.MarketingManager;
-import managers.SalesManager;
 import view.dashboard.*;
+import managers.*;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

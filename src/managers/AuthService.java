@@ -93,23 +93,26 @@ public class AuthService {
         return new ArrayList<>(users);
     }
 
-    public void updateUser(User updated) {
+    public boolean updateUser(User user) {
         for (int i = 0; i < users.size(); i++) {
-            if (users.get(i).getId().equals(updated.getId())) {
-                users.set(i, updated);
+            if (users.get(i).getId().equals(user.getId())) {
+                users.set(i, user);
                 saveUsersToFile();
-                return;
+                return true;
             }
         }
+        return false;
     }
 
-    public void deleteUser(String id) {
-        for (User u : users) {
-            if (u.getId().equals(id) && !(u instanceof Admin)) {
-                users.remove(u);
+    public boolean deleteUser(String id) {
+        for (int i = 0; i < users.size(); i++) {
+            if (users.get(i).getId().equals(id)) {
+                users.remove(i);
                 saveUsersToFile();
+                return true;
             }
         }
+        return false;
     }
 
     private void loadUsersFromFile() {

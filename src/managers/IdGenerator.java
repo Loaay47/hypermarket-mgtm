@@ -5,7 +5,17 @@ import java.util.List;
 import models.User;
 
 public class IdGenerator {
-    private int prodNumber = 0, orderNumber = 0, invNumber = 0, marketingNumber = 0, sellerNumber = 0, offerNumber = 0;
+    private static int prodNumber = 0, orderNumber = 0, invNumber = 0, marketingNumber = 0, sellerNumber = 0, offerNumber = 0;
+    public IdGenerator() {
+
+    }
+    public static String nextUserId(String role) {
+        if (role.equalsIgnoreCase("marketing")) { return nextMarketingId(); }
+        else if (role.equalsIgnoreCase("inventory")) { return nextInventoryId(); }
+        else if (role.equalsIgnoreCase("seller")) { return nextSellerId(); }
+
+        return null;
+    }
 
     public void initializeFromUsers(List<User> users) {
         for (User u : users) {
@@ -31,17 +41,17 @@ public class IdGenerator {
         return String.format("O%03d", orderNumber);
     }
 
-    public String nextInventoryId() {
+    public static String nextInventoryId() {
         invNumber++;
         return String.format("I%03d", invNumber);
     }
 
-    public String nextMarketingId() {
+    public static String nextMarketingId() {
         marketingNumber++;
         return String.format("M%03d", marketingNumber);
     }
 
-    public String nextSellerId() {
+    public static String nextSellerId() {
         sellerNumber++;
         return String.format("S%03d", sellerNumber);
     }
