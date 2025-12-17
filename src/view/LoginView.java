@@ -3,7 +3,11 @@ package view;
 import java.awt.*;
 import javax.swing.*;
 
+import managers.AdminManager;
 import managers.AuthService;
+import managers.InventoryManager;
+import managers.MarketingManager;
+import managers.SalesManager;
 import view.dashboard.*;
 
 import java.awt.event.ActionEvent;
@@ -13,6 +17,10 @@ import java.awt.event.MouseEvent;
 
 public class LoginView extends Form {
     private final AuthService auth;
+    private AdminManager adminManager;
+    private SalesManager salesManager;
+    private MarketingManager marketingManager;
+    private InventoryManager inventoryManager;
 
     public LoginView(AuthService auth) {
 
@@ -94,10 +102,10 @@ public class LoginView extends Form {
                 dispose();
                 String currentRole = auth.getCurrentRole();
                 switch (currentRole) {
-                    case "admin" -> new AdminDashboard(auth).setVisible(true);
-                    case "inventory" -> new InventoryDashboard(auth).setVisible(true);
-                    case "marketing" -> new MarketingDashboard(auth).setVisible(true);
-                    case "seller" -> new SellerDashboard(auth).setVisible(true);
+                    case "admin" -> new AdminDashboard(auth, adminManager).setVisible(true);
+                    case "inventory" -> new InventoryDashboard(auth, inventoryManager).setVisible(true);
+                    case "marketing" -> new MarketingDashboard(auth, marketingManager).setVisible(true);
+                    case "seller" -> new SellerDashboard(auth, salesManager).setVisible(true);
                 }
 
             }

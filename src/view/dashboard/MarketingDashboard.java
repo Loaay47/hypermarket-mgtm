@@ -6,18 +6,21 @@ import java.awt.event.*;
 import javax.swing.*;
 
 import managers.AuthService;
+import managers.MarketingManager;
 import view.CommonConstants;
 import view.Form;
 import view.LoginView;
 
 public class MarketingDashboard extends Form {
     private final AuthService auth;
+    private MarketingManager marketingManager;
 
-    public MarketingDashboard(AuthService auth) {
+    public MarketingDashboard(AuthService auth, MarketingManager marketingManager) {
         super("Marketing Dashboard");
         setSize(CommonConstants.DASHBOARD_SIZE);
         setLocationRelativeTo(null);
         this.auth = auth;
+        this.marketingManager = marketingManager;
         addGuiCommponents();
 
     }

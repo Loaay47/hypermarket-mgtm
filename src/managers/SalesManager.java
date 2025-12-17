@@ -64,15 +64,21 @@ public class SalesManager {
     }
 
     private void loadOrdersFromFile() {
-        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                String[] parts = line.split(",");
-                String orderId = parts[0];
-                String prodId = parts[1];
-                int qty = Integer.parseInt(parts[2]);
+        try {
+            if (!file.exists()) {
+                file.createNewFile();
+                return;
+            }
+            try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+                String line;
+                while ((line = br.readLine()) != null) {
+                    String[] parts = line.split(",");
+                    String orderId = parts[0];
+                    String prodId = parts[1];
+                    int qty = Integer.parseInt(parts[2]);
 
-                orders.add(new Order(orderId, prodId, qty));
+                    orders.add(new Order(orderId, prodId, qty));
+                }
             }
         } catch (IOException e) {
             System.out.println("Error reading orders file");

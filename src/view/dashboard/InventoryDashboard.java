@@ -3,6 +3,7 @@ package view.dashboard;
 import javax.swing.*;
 
 import managers.AuthService;
+import managers.InventoryManager;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -13,12 +14,14 @@ import view.LoginView;
 
 public class InventoryDashboard extends Form {
     private final AuthService auth;
+    private InventoryManager inventoryManager;
 
-    public InventoryDashboard(AuthService auth) {
+    public InventoryDashboard(AuthService auth, InventoryManager inventoryManager) {
         super("Inventory Dashboard");
         setSize(CommonConstants.DASHBOARD_SIZE);
         setLocationRelativeTo(null);
         this.auth = auth;
+        this.inventoryManager = inventoryManager;
         addGuiCommponents();
     }
 

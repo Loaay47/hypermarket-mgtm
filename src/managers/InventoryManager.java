@@ -70,7 +70,7 @@ public class InventoryManager {
             }
         }
         return null;
-    }    
+    }
 
     public void setMinStock(String productId, int minStock) {
         Product p = searchProduct(productId);
@@ -98,7 +98,7 @@ public class InventoryManager {
             if (p.isNearExpiry()) {
                 NearExpiryProducts.add(p);
             }
-        } 
+        }
         return NearExpiryProducts;
     }
 
@@ -115,23 +115,27 @@ public class InventoryManager {
     }
 
     private void loadProductsFromFile() {
-        if(!file.exists()) return;
+        try {
+            if (!file.exists()) {
+                file.createNewFile();
+                return;
+            }
+            try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+                String line;
+                while ((line = br.readLine()) != null) {
+                    String[] parts = line.split(",");
+                    String id = parts[0];
+                    String name = parts[1];
+                    double price = Double.parseDouble(parts[2]);
+                    int quantity = Integer.parseInt(parts[3]);
+                    int minStock = Integer.parseInt(parts[4]);
+                    LocalDate expiryDate = LocalDate.parse(parts[5]);
+                    boolean damaged = Boolean.parseBoolean(parts[6]);
 
-        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                String[] parts = line.split(",");
-                String id = parts[0];
-                String name = parts[1];
-                double price = Double.parseDouble(parts[2]);
-                int quantity = Integer.parseInt(parts[3]);
-                int minStock = Integer.parseInt(parts[4]);
-                LocalDate expiryDate = LocalDate.parse(parts[5]);
-                boolean damaged = Boolean.parseBoolean(parts[6]);
-
-                Product p = new Product(id, name, price, quantity, minStock, expiryDate);
-                p.setDamaged(damaged);
-                products.add(p);
+                    Product p = new Product(id, name, price, quantity, minStock, expiryDate);
+                    p.setDamaged(damaged);
+                    products.add(p);
+                }
             }
         } catch (IOException e) {
             System.out.println("Error reading file.");

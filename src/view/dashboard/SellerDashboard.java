@@ -6,18 +6,22 @@ import java.awt.event.*;
 import javax.swing.*;
 
 import managers.AuthService;
+import managers.SalesManager;
+import models.Product;
 import view.CommonConstants;
 import view.Form;
 import view.LoginView;
 
 public class SellerDashboard extends Form {
     private final AuthService auth;
+    private SalesManager salesManager;
 
-    public SellerDashboard(AuthService auth) {
+    public SellerDashboard(AuthService auth, SalesManager salesManager) {
         super("Seller Dashboard");
         setSize(CommonConstants.DASHBOARD_SIZE);
         setLocationRelativeTo(null);
         this.auth = auth;
+        this.salesManager = salesManager;
         addGuiCommponents();
     }
 
@@ -77,6 +81,35 @@ public class SellerDashboard extends Form {
         searchProductsBtn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         searchProductsBtn.setFont(new Font("Dialog", Font.BOLD, 18));
         searchProductsBtn.setFocusable(false);
+        searchProductsBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String prodId = JOptionPane.showInputDialog(
+                        null,
+                        "Enter Product ID to search:",
+                        "Search Product",
+                        JOptionPane.PLAIN_MESSAGE);
+
+                if (prodId != null && !prodId.isBlank()) {
+                    Product p = salesManager.searchProduct(prodId);
+                    if (p != null) {
+                        JOptionPane.showMessageDialog(
+                                null,
+                                "Product: " + p.getName() + "\nPrice: " + p.getPrice() + "\nQty: " + p.getQuantity(),
+                                "Product Info",
+                                JOptionPane.INFORMATION_MESSAGE);
+                    } else {
+                        JOptionPane.showMessageDialog(
+                                null,
+                                "Product not found",
+                                "Error",
+                                JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+
+            }
+        });
+
         menu.add(searchProductsBtn);
 
         JButton listProductsBtn = new JButton("List Products");

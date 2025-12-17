@@ -6,9 +6,11 @@ import models.*;
 public class AdminManager {
 
     private final AuthService auth;
+    private AdminManager adminManager;
 
-    public AdminManager(AuthService auth) {
+    public AdminManager(AuthService auth, AdminManager adminManager) {
         this.auth = auth;
+        this.adminManager = adminManager;
     }
     public User addEmployee(String id, String username, String password, String role) {
         User emp;
@@ -46,8 +48,3 @@ public class AdminManager {
         return auth.listUsers();
     }
 }
-
-
-
-
-
