@@ -134,7 +134,7 @@ public class RegisterView extends Form {
         loginLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                dispose();
+                RegisterView.this.dispose();
 
                 new LoginView(auth).setVisible(true);
             }

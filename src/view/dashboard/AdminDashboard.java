@@ -38,7 +38,7 @@ public class AdminDashboard extends Form {
 
         JLabel userLabel = new JLabel(auth.getCurrentUsername());
         userLabel.setFont(new Font("Dialog", Font.PLAIN, 20));
-        userLabel.setForeground(CommonConstants.SELLER_COLOR.brighter());
+        userLabel.setForeground(CommonConstants.ADMIN_COLOR.brighter());
         userLabel.setBounds(20, 10, 300, 30);
 
         add(userLabel);

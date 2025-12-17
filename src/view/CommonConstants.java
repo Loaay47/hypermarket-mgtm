@@ -12,6 +12,7 @@ public class CommonConstants {
     // color hex decimal
     public static final Color PRIMARY_COLOR = Color.decode("#191E29");
     public static final Color SECONDARY_COLOR = Color.decode("#132D46");
+    public static final Color BACKGROUND_COLOR = Color.decode("#2c3549");
     public static final Color TEXT_COLOR = Color.decode("#01C38D");
 
     public static final Color ADMIN_COLOR = Color.decode("#8B1E1E");
