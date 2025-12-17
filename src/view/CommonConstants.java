@@ -14,5 +14,10 @@ public class CommonConstants {
     public static final Color SECONDARY_COLOR = Color.decode("#132D46");
     public static final Color TEXT_COLOR = Color.decode("#01C38D");
 
+    public static final Color ADMIN_COLOR = Color.decode("#8B1E1E");
+    public static final Color SELLER_COLOR = Color.decode("#0157C3");
+    public static final Color INVENTORY_COLOR = Color.decode("#C36A01");
+    public static final Color MARKETING_COLOR = Color.decode("#6A01C3");
+
 }
 

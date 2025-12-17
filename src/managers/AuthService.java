@@ -85,6 +85,10 @@ public class AuthService {
         return getCurrentUser().getRole();
     }
 
+    public String getCurrentUsername() {
+        return getCurrentUser().getUsername();
+    }
+
     public ArrayList<User> listUsers() {
         return new ArrayList<>(users);
     }

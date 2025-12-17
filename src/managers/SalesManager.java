@@ -23,7 +23,7 @@ public class SalesManager {
     public ArrayList<Product> listProducts() {
         return inventory.listProducts();
     }
-    
+
     public Order makeOrder(String productId, int qty) {
         Product p = inventory.searchProduct(productId);
 
