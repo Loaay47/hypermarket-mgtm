@@ -3,12 +3,8 @@ package view;
 import java.awt.*;
 import javax.swing.*;
 
-import managers.AdminManager;
-import managers.AuthService;
-import managers.InventoryManager;
-import managers.MarketingManager;
-import managers.SalesManager;
 import view.dashboard.*;
+import managers.*;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -28,6 +24,11 @@ public class LoginView extends Form {
         setSize(CommonConstants.LOGIN_SIZE);
         setLocationRelativeTo(null);
         this.auth = auth;
+        inventoryManager = new InventoryManager();
+        IdGenerator idGen = new IdGenerator();
+        salesManager = new SalesManager(inventoryManager, idGen);
+        marketingManager = new MarketingManager(inventoryManager);
+        adminManager = new AdminManager(auth);
         addGuiCommponents();
 
     }

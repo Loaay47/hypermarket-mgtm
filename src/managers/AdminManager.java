@@ -6,11 +6,9 @@ import models.*;
 public class AdminManager {
 
     private final AuthService auth;
-    private AdminManager adminManager;
 
-    public AdminManager(AuthService auth, AdminManager adminManager) {
+    public AdminManager(AuthService auth) {
         this.auth = auth;
-        this.adminManager = adminManager;
     }
     public User addEmployee(String id, String username, String password, String role) {
         User emp;
@@ -24,20 +22,32 @@ public class AdminManager {
                 return null;
             }
         }
-
-        // TODO: a bug prevented compilation, no idea why
-        // auth.registerUser(emp);
+        auth.registerUser(username,password,role);
         return emp;
     }
 
-    public void removeEmployee(String id) {
+    public boolean deleteEmployee(String id) {
         if (auth.searchUser(id) != null) {
             auth.deleteUser(id);
+            return true;
         }
+        return false;
     }
 
-    public void updateEmployee(User u) {
-        auth.updateUser(u);
+    public boolean updateEmployee(String employeeId, String newUsername, String newPassword, String newRole) {
+        User user = auth.searchUser(employeeId);
+        if (user == null) {
+            return false;
+        }
+
+        if (user.getRole().equals("Admin")) {
+            newRole = user.getRole();
+        }
+
+        user.setPassword(newPassword);
+        user.setRole(newRole);
+
+        return auth.updateUser(user);
     }
 
     public User searchEmployeeById(String id) {

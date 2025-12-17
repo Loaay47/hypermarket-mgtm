@@ -35,4 +35,7 @@ public abstract class User {
         this.password = password;
     }
 
+    public void setRole(String role) {
+        this.role = role;
+    }
 }
