@@ -4,7 +4,7 @@ import java.awt.Dimension;
 
 public class CommonConstants {
     // login frame size
-    public static final Dimension LOGIN_SIZE = new Dimension(400, 520);
+    public static final Dimension LOGIN_SIZE = new Dimension(400, 570);
 
     // login frame size
     public static final Dimension DASHBOARD_SIZE = new Dimension(820, 580);
