@@ -72,6 +72,44 @@ public class InventoryDashboard extends Form {
 
         add(logoutButton);
 
+        JButton notifications= new JButton("Alerts");
+        notifications.setBounds(20, 40, 100, 40);
+        notifications.setBackground(CommonConstants.INVENTORY_COLOR);
+        notifications.setForeground(Color.WHITE);
+        notifications.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        notifications.setFont(new Font("Dialog", Font.BOLD, 18));
+        notifications.setFocusable(false);
+        notifications.addActionListener(e -> {
+            content.removeAll();
+            content.setLayout(new BorderLayout());
+
+            JLabel title = new JLabel("Alerts");
+            title.setFont(new Font("Dialog", Font.BOLD, 22));
+            title.setForeground(CommonConstants.INVENTORY_COLOR);
+            title.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+            ArrayList<String> notes = inventoryManager.getNotifications();
+
+            DefaultListModel<String> model = new DefaultListModel<>();
+            if (notes.isEmpty()) {
+                model.addElement("No notifications 🎉");
+            } else {
+                for (String n : notes) model.addElement(n);
+            }
+
+            JList<String> list = new JList<>(model);
+            list.setFont(new Font("Dialog", Font.PLAIN, 20));
+
+            JScrollPane scroll = new JScrollPane(list);
+
+            content.add(title, BorderLayout.NORTH);
+            content.add(scroll, BorderLayout.CENTER);
+
+            content.revalidate();
+            content.repaint();
+        });
+
+        add(notifications);
         // left menu panel
         JPanel menu = new JPanel(null);
         menu.setBackground(CommonConstants.PRIMARY_COLOR.darker());

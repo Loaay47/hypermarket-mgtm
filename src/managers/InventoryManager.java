@@ -13,6 +13,28 @@ public class InventoryManager {
         loadProductsFromFile();
     }
 
+    public ArrayList<String> getNotifications() {
+        ArrayList<String> notifications = new ArrayList<>();
+
+        for (Product p : products) {
+            if (p.isLowStock(p.getMinStock())) {
+                notifications.add(
+                        "Low stock: " + p.getName() +
+                                " (Qty: " + p.getQuantity() + ")"
+                );
+            }
+
+            if (p.isNearExpiry()) {
+                notifications.add(
+                        "Near expiry: " + p.getName() +
+                                " (Expiry: " + p.getExpiryDate() + ")"
+                );
+            }
+        }
+
+        return notifications;
+    }
+
     public void addProduct(Product p) {
         products.add(p);
         saveProductstoFile();
