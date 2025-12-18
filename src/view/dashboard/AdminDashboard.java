@@ -95,13 +95,11 @@ public class AdminDashboard extends Form {
                 String newUsername = JOptionPane.showInputDialog(content, "Enter new username:");
                 if (newUsername == null || newUsername.trim().isEmpty()) {
                     JOptionPane.showMessageDialog(content, "Username unchanged.");
-                    newUsername = null;
                 }
 
                 String newPassword = JOptionPane.showInputDialog(content, "Enter new password:");
                 if (newPassword == null || newPassword.trim().isEmpty()) {
                     JOptionPane.showMessageDialog(content, "Password unchanged.");
-                    newPassword = null;
                 }
 
                 if (newUsername != null || newPassword != null) {

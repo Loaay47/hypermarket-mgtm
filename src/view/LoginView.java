@@ -105,7 +105,7 @@ public class LoginView extends Form {
                 switch (currentRole) {
                     case "admin" -> new AdminDashboard(auth, adminManager).setVisible(true);
                     case "inventory" -> new InventoryDashboard(auth, inventoryManager).setVisible(true);
-                    case "marketing" -> new MarketingDashboard(auth, marketingManager).setVisible(true);
+                    case "marketing" -> new MarketingDashboard(auth, marketingManager, inventoryManager).setVisible(true);
                     case "seller" -> new SellerDashboard(auth, salesManager).setVisible(true);
                 }
 
