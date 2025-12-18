@@ -43,7 +43,9 @@ public class InventoryManager {
     public void applySpecialOffer(SpecialOffer offer) {
         Product p = searchProduct(offer.getProductId());
         if (p != null) {
-            p.setPrice(offer.getDiscountedPrice(p.getPrice()));
+            p.resetExpiredOffer();
+            p.setPrice(offer.getDiscountedPrice(p.getOriginalPrice()));
+            p.setActiveOffer(offer);
             saveProductstoFile();
         }
     }

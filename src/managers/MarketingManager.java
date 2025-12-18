@@ -17,6 +17,14 @@ public class MarketingManager {
         loadOffersFromFile();
     }
 
+    public ArrayList<Product> generateProductReport(InventoryManager inventory) {
+        ArrayList<Product> report = new ArrayList<>();
+        for (Product p : inventory.getAllProducts()) {
+                report.add(p);
+        }
+        return report;
+    }
+
     public SpecialOffer createOffer(String productId, double discount, LocalDate start, LocalDate end) {
         SpecialOffer offer = new SpecialOffer(productId, discount, start, end);
         offers.add(offer);
@@ -24,8 +32,12 @@ public class MarketingManager {
         return offer;
     }
 
-    public void sendOfferToInventory(SpecialOffer offer) {
+    public boolean sendOfferToInventory(SpecialOffer offer, InventoryManager inventory) {
+        Product p = inventory.searchProduct(offer.getProductId());
+        if (p == null) return false;
+
         inventory.applySpecialOffer(offer);
+        return true;
     }
 
     public ArrayList<SpecialOffer> listOffers() {
