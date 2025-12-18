@@ -13,11 +13,13 @@ public class IdGenerator {
     private final File products = new File("data/products.txt");
     private final File orders = new File("data/orders.txt");
     private final File offers = new File("data/offers.txt");
+    private final File users = new File("data/users.txt");
 
     public IdGenerator() {
         initializeFromProducts(products);
         initializeFromOrders(orders);
         initializeFromOffers(offers);
+        initializeFromTheUser(users);
     }
 
     public static String nextUserId(String role) {
@@ -43,6 +45,30 @@ public class IdGenerator {
             } else if (id.startsWith("S")) {
                 sellerNumber = Math.max(sellerNumber, Integer.parseInt(id.substring(1)));
             }
+        }
+    }
+
+    public void initializeFromTheUser(File products) {
+        if (!products.exists())
+            return;
+        try (BufferedReader br = new BufferedReader(new FileReader(users))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String id = line.split(",")[0];
+                if (id.startsWith("I")) {
+                    int num = Integer.parseInt(id.substring(1));
+                    invNumber = Math.max(invNumber, num);
+                }
+                else if (id.startsWith("S")) {
+                    int num = Integer.parseInt(id.substring(1));
+                    sellerNumber = Math.max(sellerNumber, num);
+                }
+                else if (id.startsWith("M")) {
+                    int num = Integer.parseInt(id.substring(1));
+                    marketingNumber = Math.max(marketingNumber, num);
+                }
+            }
+        } catch (Exception ignored) {
         }
     }
 
