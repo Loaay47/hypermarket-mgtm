@@ -9,10 +9,12 @@ public class SalesManager {
     private final ArrayList<Order> orders = new ArrayList<>();
     private final File file = new File("data/orders.txt");
     private final IdGenerator idGenerator;
+    private final String userId;
 
-    public SalesManager(InventoryManager inv, IdGenerator idGenerator) {
+    public SalesManager(InventoryManager inv, IdGenerator idGenerator, String userId) {
         this.inventory = inv;
         this.idGenerator = idGenerator;
+        this.userId = userId;
         loadOrdersFromFile();
     }
 
@@ -26,15 +28,20 @@ public class SalesManager {
 
     public Order makeOrder(String productId, int qty) {
         Product p = inventory.searchProduct(productId);
-
-        if (p == null) return null;
-        if (p.getQuantity() < qty) return null;
+        if (p == null || p.getQuantity() < qty)
+            return null;
 
         p.setQuantity(p.getQuantity() - qty);
         inventory.updateProduct(p);
 
         String orderId = idGenerator.nextOrderId();
-        Order order = new Order(orderId, productId, qty);
+
+        Order order = new Order(
+                orderId,
+                userId,
+                productId,
+                qty,
+                p.getPrice());
 
         orders.add(order);
         saveOrdersToFile();
@@ -74,16 +81,19 @@ public class SalesManager {
                 while ((line = br.readLine()) != null) {
                     String[] parts = line.split(",");
                     String orderId = parts[0];
-                    String prodId = parts[1];
-                    int qty = Integer.parseInt(parts[2]);
+                    String userId = parts[1];
+                    String productId = parts[2];
+                    int qty = Integer.parseInt(parts[3]);
+                    double unitPrice = Double.parseDouble(parts[4]);
 
-                    orders.add(new Order(orderId, prodId, qty));
+                    orders.add(new Order(orderId, userId, productId, qty, unitPrice));
                 }
             }
         } catch (IOException e) {
             System.out.println("Error reading orders file");
         }
     }
+
     private void saveOrdersToFile() {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
             for (Order o : orders) {

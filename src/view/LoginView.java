@@ -25,8 +25,6 @@ public class LoginView extends Form {
         setLocationRelativeTo(null);
         this.auth = auth;
         inventoryManager = new InventoryManager();
-        IdGenerator idGen = new IdGenerator();
-        salesManager = new SalesManager(inventoryManager, idGen);
         marketingManager = new MarketingManager(inventoryManager);
         adminManager = new AdminManager(auth);
         addGuiCommponents();
@@ -88,7 +86,7 @@ public class LoginView extends Form {
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String username = usernameField.getText();
+                String username = usernameField.getText().trim();
                 String password = new String(passwordField.getPassword());
 
                 boolean u = auth.login(username, password);
@@ -101,11 +99,15 @@ public class LoginView extends Form {
                 JOptionPane.showMessageDialog(null, "Login successful!");
 
                 dispose();
+                String userId = auth.getCurrentUser().getId();
+                IdGenerator idGen = new IdGenerator();
+                salesManager = new SalesManager(inventoryManager, idGen, userId);
                 String currentRole = auth.getCurrentRole();
                 switch (currentRole) {
                     case "admin" -> new AdminDashboard(auth, adminManager).setVisible(true);
                     case "inventory" -> new InventoryDashboard(auth, inventoryManager).setVisible(true);
-                    case "marketing" -> new MarketingDashboard(auth, marketingManager, inventoryManager).setVisible(true);
+                    case "marketing" ->
+                        new MarketingDashboard(auth, marketingManager, inventoryManager).setVisible(true);
                     case "seller" -> new SellerDashboard(auth, salesManager).setVisible(true);
                 }
 

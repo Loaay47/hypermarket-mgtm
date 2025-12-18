@@ -178,8 +178,55 @@ public class SellerDashboard extends Form {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                ArrayList<Order> allOrders = salesManager.listOrders();
                 content.removeAll();
+                content.setLayout(new BorderLayout());
+
+                ArrayList<Order> allOrders = salesManager.listOrders();
+                ArrayList<Order> userOrders = new ArrayList<>();
+
+                for (Order o : allOrders) {
+                    if (o.getUserId().equals(auth.getCurrentUser().getId())) {
+                        userOrders.add(o);
+                    }
+                }
+
+                if (userOrders.isEmpty()) {
+                    JOptionPane.showMessageDialog(
+                            content,
+                            "No orders found for this user.");
+                    return;
+                }
+
+                String[] columns = {
+                        "Order ID",
+                        "Product ID",
+                        "Product Name",
+                        "Quantity",
+                        "Total Price",
+                        "Date"
+                };
+
+                Object[][] data = new Object[userOrders.size()][columns.length];
+
+                for (int i = 0; i < userOrders.size(); i++) {
+                    Order o = userOrders.get(i);
+
+                    Product p = salesManager.searchProduct(o.getProductId());
+                    String productName = (p != null) ? p.getName() : "Unknown";
+                    data[i][0] = o.getOrderId();
+                    data[i][1] = o.getProductId();
+                    data[i][2] = productName;
+                    data[i][3] = o.getQuantity();
+                    data[i][4] = o.getTotalPrice();
+                    data[i][5] = o.getDate();
+                }
+
+                JTable table = new JTable(data, columns);
+                table.setRowHeight(25);
+                table.setFillsViewportHeight(true);
+
+                JScrollPane scrollPane = new JScrollPane(table);
+                content.add(scrollPane, BorderLayout.CENTER);
 
                 content.revalidate();
                 content.repaint();
@@ -198,58 +245,69 @@ public class SellerDashboard extends Form {
         createOrderBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
                 String prodId = JOptionPane.showInputDialog(
-                        null,
+                        content,
                         "Enter Product ID:",
                         "Create Order",
                         JOptionPane.PLAIN_MESSAGE);
 
-                if (prodId == null || prodId.isBlank())
+                if (prodId == null || prodId.trim().isEmpty())
                     return;
+
                 String qtyStr = JOptionPane.showInputDialog(
-                        null,
+                        content,
                         "Enter Quantity:",
                         "Create Order",
                         JOptionPane.PLAIN_MESSAGE);
 
-                if (qtyStr == null || qtyStr.isBlank())
+                if (qtyStr == null || qtyStr.trim().isEmpty())
                     return;
 
-                int qty = Integer.parseInt(qtyStr);
-                Product p = salesManager.searchProduct(prodId);
-                content.removeAll();
-
-                if (p == null) {
-                    JLabel errorLabel = new JLabel("Product not found: " + prodId);
-                    errorLabel.setFont(new Font("Dialog", Font.PLAIN, 20));
-                    errorLabel.setForeground(Color.RED);
-                    errorLabel.setHorizontalAlignment(SwingConstants.CENTER);
-                    content.setLayout(new BorderLayout());
-                    content.add(errorLabel, BorderLayout.CENTER);
-                } else if (p.getQuantity() < qty) {
-                    JLabel errorLabel = new JLabel("Not enough stock. Available: " + p.getQuantity());
-                    errorLabel.setFont(new Font("Dialog", Font.PLAIN, 20));
-                    errorLabel.setForeground(Color.RED);
-                    errorLabel.setHorizontalAlignment(SwingConstants.CENTER);
-                    content.setLayout(new BorderLayout());
-                    content.add(errorLabel, BorderLayout.CENTER);
-                } else {
-                    salesManager.makeOrder(prodId, qty);
-
-                    JLabel successLabel = new JLabel(
-                            "<html>Order placed successfully!<br>" +
-                                    "Product: " + p.getName() + "<br>" +
-                                    "Quantity: " + qty + "<br>" +
-                                    "Remaining Stock: " + p.getQuantity() + "</html>");
-                    successLabel.setFont(new Font("Dialog", Font.PLAIN, 20));
-                    successLabel.setForeground(CommonConstants.SELLER_COLOR.darker());
-                    successLabel.setHorizontalAlignment(SwingConstants.CENTER);
-                    content.setLayout(new BorderLayout());
-                    content.add(successLabel, BorderLayout.CENTER);
+                int qty;
+                try {
+                    qty = Integer.parseInt(qtyStr.trim());
+                    if (qty <= 0)
+                        throw new NumberFormatException();
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(
+                            content,
+                            "Invalid quantity!",
+                            "Error",
+                            JOptionPane.ERROR_MESSAGE);
+                    return;
                 }
 
-                content.revalidate();
-                content.repaint();
+                Product p = salesManager.searchProduct(prodId.trim());
+
+                if (p == null) {
+                    JOptionPane.showMessageDialog(
+                            content,
+                            "Product not found!",
+                            "Error",
+                            JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                if (p.getQuantity() < qty) {
+                    JOptionPane.showMessageDialog(
+                            content,
+                            "Not enough stock.\nAvailable: " + p.getQuantity(),
+                            "Error",
+                            JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                salesManager.makeOrder(prodId.trim(), qty);
+
+                JOptionPane.showMessageDialog(
+                        content,
+                        "Order placed successfully!\n\n" +
+                                "Product: " + p.getName() + "\n" +
+                                "Quantity: " + qty + "\n" +
+                                "Remaining Stock: " + p.getQuantity(),
+                        "Success",
+                        JOptionPane.INFORMATION_MESSAGE);
             }
         });
 
@@ -265,10 +323,25 @@ public class SellerDashboard extends Form {
         cancelOrderBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                content.removeAll();
 
-                content.revalidate();
-                content.repaint();
+                String orderId = JOptionPane.showInputDialog(
+                        content,
+                        "Enter Order ID to cancel:");
+
+                if (orderId == null || orderId.trim().isEmpty())
+                    return;
+
+                boolean cancelled = salesManager.cancelOrder(orderId.trim());
+
+                if (cancelled) {
+                    JOptionPane.showMessageDialog(
+                            content,
+                            "Order cancelled successfully!");
+                } else {
+                    JOptionPane.showMessageDialog(
+                            content,
+                            "Order not found or cannot be cancelled");
+                }
             }
         });
 

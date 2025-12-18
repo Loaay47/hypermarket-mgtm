@@ -124,15 +124,15 @@ public class AuthService {
             if (!file.exists()) {
                 file.createNewFile();
 
-                users.add(new Admin("A000", "loaay", "1234"));
-                users.add(new Admin("A001", "abdo", "1321"));
+                users.add(new Admin("A001", "loaay", "1234"));
+                users.add(new Admin("A002", "abdo", "1321"));
 
                 saveUsersToFile();
                 return;
             }
             if (file.length() == 0) {
-                users.add(new Admin("A000", "loaay", "1234"));
-                users.add(new Admin("A001", "abdo", "1321"));
+                users.add(new Admin("A001", "loaay", "1234"));
+                users.add(new Admin("A002", "abdo", "1321"));
 
                 saveUsersToFile();
                 return;

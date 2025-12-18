@@ -100,6 +100,12 @@ public class AdminDashboard extends Form {
                 String newPassword = JOptionPane.showInputDialog(content, "Enter new password:");
                 if (newPassword == null || newPassword.trim().isEmpty()) {
                     JOptionPane.showMessageDialog(content, "Password unchanged.");
+                    return;
+                }
+
+                if (newPassword.length() < 4 ) {
+                    JOptionPane.showMessageDialog(content, "Password must be at least 4 characters");
+                    return;
                 }
 
                 if (newUsername != null || newPassword != null) {
@@ -111,7 +117,7 @@ public class AdminDashboard extends Form {
                         userLabel.setText(auth.getCurrentUsername());
                         JOptionPane.showMessageDialog(content, "Credentials updated successfully!");
                     } else {
-                        JOptionPane.showMessageDialog(content, "Failed to update credentials.");
+                        JOptionPane.showMessageDialog(content, "Failed to update credentials");
                     }
                 }
             }
@@ -149,7 +155,7 @@ public class AdminDashboard extends Form {
                 passwordLabel.setForeground(Color.WHITE);
                 passwordLabel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
                 passwordLabel.setFont(new Font("Dialog", Font.BOLD, 20));
-                JTextField passwordField = new JTextField();
+                JPasswordField passwordField = new JPasswordField();
                 passwordField.setFont(new Font("Dialog", Font.PLAIN, 20));
                 passwordField.setMargin(new Insets(5, 5, 5, 5));
 
@@ -170,7 +176,7 @@ public class AdminDashboard extends Form {
                 addBtn.setFocusable(false);
                 addBtn.addActionListener(ev -> {
                     String username = usernameField.getText().trim();
-                    String password = passwordField.getText().trim();
+                    String password = new String(passwordField.getPassword());
                     String role = (String) roleCombo.getSelectedItem();
 
                     if (username.isEmpty()) {
@@ -179,6 +185,11 @@ public class AdminDashboard extends Form {
                     }
                     if (password.isEmpty()) {
                         JOptionPane.showMessageDialog(content, "Password is empty!");
+                        return;
+                    }
+
+                    if (password.length() < 4) {
+                        JOptionPane.showMessageDialog(content, "Password must be at least 4 characters");
                         return;
                     }
 
@@ -373,17 +384,14 @@ public class AdminDashboard extends Form {
                 content.removeAll();
                 content.setLayout(new BorderLayout(10, 10));
 
-                // Header
                 JLabel header = new JLabel("All Employees");
                 header.setForeground(Color.WHITE);
                 header.setFont(new Font("Dialog", Font.BOLD, 22));
                 header.setHorizontalAlignment(SwingConstants.CENTER);
                 content.add(header, BorderLayout.NORTH);
 
-                // Table columns
                 String[] columns = {"ID", "Username", "Role"};
 
-                // Fetch employees from AdminManager
                 java.util.List<User> employees = adminManager.listEmployees();
                 Object[][] data = new Object[employees.size()][3];
                 for (int i = 0; i < employees.size(); i++) {
@@ -393,22 +401,18 @@ public class AdminDashboard extends Form {
                     data[i][2] = u.getRole();
                 }
 
-                // JTable
                 JTable table = new JTable(data, columns);
                 table.setFont(new Font("Dialog", Font.PLAIN, 16));
                 table.setRowHeight(25);
                 table.setFillsViewportHeight(true);
 
-                // Table header styling
                 table.getTableHeader().setFont(new Font("Dialog", Font.BOLD, 18));
                 table.getTableHeader().setBackground(CommonConstants.ADMIN_COLOR);
                 table.getTableHeader().setForeground(Color.WHITE);
 
-                // Scroll pane
                 JScrollPane scrollPane = new JScrollPane(table);
                 content.add(scrollPane, BorderLayout.CENTER);
 
-                // Refresh panel
                 content.revalidate();
                 content.repaint();
             }

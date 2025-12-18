@@ -98,7 +98,7 @@ public class RegisterView extends Form {
         registerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String username = usernameField.getText();
+                String username = usernameField.getText().trim();
                 String password = new String(passwordField.getPassword());
                 String confirmPassword = new String(conPasswordField.getPassword());
 

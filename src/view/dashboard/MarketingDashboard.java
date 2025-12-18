@@ -109,9 +109,9 @@ public class MarketingDashboard extends Form {
             }
 
             JTable table = new JTable(data, columns);
-            table.setFont(new Font("Dialog", Font.PLAIN, 16));
+            table.setFont(new Font("Dialog", Font.PLAIN, 15));
             table.setRowHeight(25);
-            table.getTableHeader().setFont(new Font("Dialog", Font.BOLD, 18));
+            table.getTableHeader().setFont(new Font("Dialog", Font.BOLD, 16));
 
             JScrollPane scrollPane = new JScrollPane(table);
 
@@ -134,28 +134,28 @@ public class MarketingDashboard extends Form {
         content.setLayout(new GridLayout(5, 2, 15, 10));
 
         JLabel productIdLabel = new JLabel("Product ID:");
-        productIdLabel.setForeground(CommonConstants.MARKETING_COLOR.brighter());
+        productIdLabel.setForeground(Color.WHITE);
         productIdLabel.setFont(new Font("Dialog", Font.BOLD, 20));
         JTextField productIdField = new JTextField();
         productIdField.setFont(new Font("Dialog", Font.PLAIN, 20));
         productIdField.setMargin(new Insets(5,5,5,5));
 
         JLabel discountLabel = new JLabel("Discount %:");
-        discountLabel.setForeground(CommonConstants.MARKETING_COLOR.brighter());
+        discountLabel.setForeground(Color.WHITE);
         discountLabel.setFont(new Font("Dialog", Font.BOLD, 20));
         JTextField discountField = new JTextField();
         discountField.setFont(new Font("Dialog", Font.PLAIN, 20));
         discountField.setMargin(new Insets(5,5,5,5));
 
         JLabel startDateLabel = new JLabel("Start Date (YYYY-MM-DD):");
-        startDateLabel.setForeground(CommonConstants.MARKETING_COLOR.brighter());
+        startDateLabel.setForeground(Color.WHITE);
         startDateLabel.setFont(new Font("Dialog", Font.BOLD, 20));
         JTextField startDateField = new JTextField();
         startDateField.setFont(new Font("Dialog", Font.PLAIN, 20));
         startDateField.setMargin(new Insets(5,5,5,5));
 
         JLabel endDateLabel = new JLabel("End Date (YYYY-MM-DD):");
-        endDateLabel.setForeground(CommonConstants.MARKETING_COLOR.brighter());
+        endDateLabel.setForeground(Color.WHITE);
         endDateLabel.setFont(new Font("Dialog", Font.BOLD, 20));
         JTextField endDateField = new JTextField();
         endDateField.setFont(new Font("Dialog", Font.PLAIN, 20));

@@ -12,22 +12,27 @@ public class InventoryManager {
     public InventoryManager() {
         loadProductsFromFile();
     }
+
     public void addProduct(Product p) {
         products.add(p);
         saveProductstoFile();
     }
 
-    public void removeProduct(String id) {
-        for (Product p : products) {
+    public boolean removeProduct(String id) {
+        Iterator<Product> it = products.iterator();
+        while (it.hasNext()) {
+            Product p = it.next();
             if (p.getId().equals(id)) {
-                products.remove(p);
+                it.remove();
+                saveProductstoFile();
+                return true;
             }
         }
-        saveProductstoFile();
+        return false;
     }
 
     public void updateProduct(Product p) {
-        for (int i = 0 ; i < products.size(); i++) {
+        for (int i = 0; i < products.size(); i++) {
             if (products.get(i).getId().equals(p.getId())) {
                 products.set(i, p);
                 break;
@@ -49,6 +54,7 @@ public class InventoryManager {
             saveProductstoFile();
         }
     }
+
     public void setDamaged(String id, boolean damaged) {
         Product p = searchProduct(id);
         if (p != null) {
@@ -60,7 +66,8 @@ public class InventoryManager {
     public ArrayList<Product> listProducts() {
         ArrayList<Product> result = new ArrayList<>();
         for (Product p : products) {
-            if (!p.isDamaged()) result.add(p);
+            if (!p.isDamaged())
+                result.add(p);
         }
         return result;
     }
@@ -85,7 +92,7 @@ public class InventoryManager {
     public ArrayList<Product> checkLowStock() {
         ArrayList<Product> lowStockProducts = new ArrayList<>();
 
-        for (Product p: products) {
+        for (Product p : products) {
             if (p.isLowStock(p.getMinStock())) {
                 lowStockProducts.add(p);
             }
@@ -96,7 +103,7 @@ public class InventoryManager {
     public ArrayList<Product> checkNearExpiry() {
         ArrayList<Product> NearExpiryProducts = new ArrayList<>();
 
-        for (Product p: products) {
+        for (Product p : products) {
             if (p.isNearExpiry()) {
                 NearExpiryProducts.add(p);
             }
@@ -144,11 +151,11 @@ public class InventoryManager {
         }
 
     }
+
     private void saveProductstoFile() {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
             for (Product p : products) {
-                    String line =
-                        p.getId() + "," +
+                String line = p.getId() + "," +
                         p.getName() + "," +
                         p.getPrice() + "," +
                         p.getQuantity() + "," +
@@ -158,8 +165,7 @@ public class InventoryManager {
                 bw.write(line);
                 bw.newLine();
             }
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             System.out.println("Can't write into file.");
         }
     }
