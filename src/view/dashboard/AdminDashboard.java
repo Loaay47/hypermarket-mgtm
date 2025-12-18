@@ -48,7 +48,7 @@ public class AdminDashboard extends Form {
 
         add(header);
 
-        JLabel userLabel = new JLabel(auth.getCurrentUsername());
+        JLabel userLabel = new JLabel(auth.getCurrentUser().getUsername());
         userLabel.setFont(new Font("Dialog", Font.PLAIN, 20));
         userLabel.setForeground(CommonConstants.ADMIN_COLOR.brighter());
         userLabel.setBounds(20, 10, 300, 30);
@@ -80,6 +80,46 @@ public class AdminDashboard extends Form {
 
         add(logoutButton);
 
+
+        JButton changeUserPass= new JButton("Change credentials");
+        changeUserPass.setBounds(20, 40, 160, 30);
+        changeUserPass.setBackground(CommonConstants.ADMIN_COLOR);
+        changeUserPass.setForeground(Color.WHITE);
+        changeUserPass.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        changeUserPass.setFont(new Font("Dialog", Font.PLAIN, 16));
+        changeUserPass.setFocusable(false);
+        changeUserPass.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                User currentUser = auth.getCurrentUser();
+                String newUsername = JOptionPane.showInputDialog(content, "Enter new username:");
+                if (newUsername == null || newUsername.trim().isEmpty()) {
+                    JOptionPane.showMessageDialog(content, "Username unchanged.");
+                    newUsername = null;
+                }
+
+                String newPassword = JOptionPane.showInputDialog(content, "Enter new password:");
+                if (newPassword == null || newPassword.trim().isEmpty()) {
+                    JOptionPane.showMessageDialog(content, "Password unchanged.");
+                    newPassword = null;
+                }
+
+                if (newUsername != null || newPassword != null) {
+                    currentUser.setUsername(newUsername);
+                    currentUser.setPassword(newPassword);
+                    boolean success = auth.updateUser(currentUser);
+
+                    if (success) {
+                        userLabel.setText(auth.getCurrentUsername());
+                        JOptionPane.showMessageDialog(content, "Credentials updated successfully!");
+                    } else {
+                        JOptionPane.showMessageDialog(content, "Failed to update credentials.");
+                    }
+                }
+            }
+        });
+
+        add(changeUserPass);
         // Left menu panel
         JPanel menu = new JPanel(null);
         menu.setBackground(CommonConstants.PRIMARY_COLOR.darker());
