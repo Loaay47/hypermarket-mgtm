@@ -44,6 +44,7 @@ public class AdminManager {
             newRole = user.getRole();
         }
 
+        user.setUsername(newUsername);
         user.setPassword(newPassword);
         user.setRole(newRole);
 

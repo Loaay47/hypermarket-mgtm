@@ -96,8 +96,6 @@ public class LoginView extends Form {
                     return;
                 }
 
-                JOptionPane.showMessageDialog(null, "Login successful!");
-
                 dispose();
                 String userId = auth.getCurrentUser().getId();
                 IdGenerator idGen = new IdGenerator();

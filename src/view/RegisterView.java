@@ -114,8 +114,6 @@ public class RegisterView extends Form {
                     return;
                 }
 
-                JOptionPane.showMessageDialog(null, "Registration successful!");
-
                 dispose();
                 new LoginView(auth).setVisible(true);
 
